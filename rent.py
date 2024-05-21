@@ -149,11 +149,23 @@ class RentalServiceFacade:
         self.stage1 = RentStage1(CarFactory())
         self.stage2 = RentStage2(ConcreteCarOptionBuilder)
         self.stage3 = RentStage3()
+        self.rental_info = None
     
     def rent_car(self, model_type, rental_days, options):
         car = self.stage1.select_car(model_type)
         car = self.stage2.add_options(car, options)
         self.stage3.finalize_rental(car, rental_days)
+        self.rental_info = {
+            'car': car,
+            'model_type': model_type,
+            'retal_days': rental_days,
+            'options': options,
+            'total_cost': car.calculate_total_cost(rental_days)
+        }
+        return self.rental_info
+    
+    def get_rental_info(self):
+        return self.rental_info
 
 
 def main():
@@ -184,7 +196,9 @@ def main():
             print("범위를 벗어난 번호가 있습니다. 올바른 번호를 입력해주세요.")
 
     rental_service = RentalServiceFacade()
-    rental_service.rent_car(model_type, rental_days, selected_options)
+    rental_info = rental_service.rent_car(model_type, rental_days, selected_options)
+
+    return rental_info
 
 if __name__ == "__main__":
     main()
