@@ -26,15 +26,15 @@ class PaymentStrategy(ABC):
 
 class CardPaymentStrategy(PaymentStrategy):
     def pay(self, amount):
-        print(f"Paying {amount} using Card.")
+        print(f"신용카드로 {amount} 원이 결제되었습니다.")
 
 class AccountPaymentStrategy(PaymentStrategy):
     def pay(self, amount):
-        print(f"Paying {amount} using Account.")
+        print(f"계좌이체로 {amount} 원이 결제되었습니다.")
 
 class PayPaymentStrategy(PaymentStrategy):
     def pay(self, amount):
-        print(f"Paying {amount} using Pay service.")
+        print(f"페이로 {amount} 원이 결제되었습니다.")
 
 
 class RentalReturnProcessor:
@@ -62,7 +62,7 @@ def main():
     
     rental_info = rental_service.main()
     
-    return_date_str = input("반납 날짜를 입력하세요 (YYYY-MM-DD): %d")
+    return_date_str = input("실제 대여 날짜를 입력하세요: %d")
     
     fee_strategies = LateReturnFeeStrategy()
 
