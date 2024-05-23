@@ -55,61 +55,38 @@ class Option:
         self.cost = cost
 
 # CarOptionBuilder 클래스: 차량 옵션 추가
-class CarOptionBuilder(ABC):
-    @abstractmethod
-    def add_navigation(self):
-        pass
-    
-    @abstractmethod
-    def add_insurance(self):
-        pass
-    
-    @abstractmethod
-    def add_childseat(self):
-        pass
-    
-    @abstractmethod
-    def add_bikerack(self):
-        pass
-    
-    @abstractmethod
-    def add_wifi(self):
-        pass
-    
-    @abstractmethod
-    def add_sunroof(self):
-        pass
-    
-    @abstractmethod
-    def build(self):
-        pass
-
-class ConcreteCarOptionBuilder(CarOptionBuilder):
+class CarOptionBuilder:
     def __init__(self, car):
         self.car = car
     
     def add_navigation(self):
         self.car.add_option(Option("네비게이션", 1000))
+        print("네비게이션 옵션을 추가하였습니다.")
         return self
     
     def add_insurance(self):
         self.car.add_option(Option("보험", 5000))
+        print("보험 옵션을 추가하였습니다.")
         return self
     
     def add_bikerack(self):
         self.car.add_option(Option("바이크 랙", 2000))
+        print("바이크 랙 옵션을 추가하였습니다.")
         return self
     
     def add_childseat(self):
         self.car.add_option(Option("유아용 카시트", 3000))
+        print("유아용 카시트 옵션을 추가하였습니다.")
         return self
     
     def add_wifi(self):
         self.car.add_option(Option("와이파이", 2500))
+        print("와이파이 옵션을 추가하였습니다.")
         return self
     
     def add_sunroof(self):
         self.car.add_option(Option("선루프", 4000))
+        print("선루프 옵션을 추가하였습니다.")
         return self
     
     def build(self):
@@ -147,7 +124,7 @@ class RentStage3:
 class RentalServiceFacade:
     def __init__(self):
         self.stage1 = RentStage1(CarFactory())
-        self.stage2 = RentStage2(ConcreteCarOptionBuilder)
+        self.stage2 = RentStage2(CarOptionBuilder)
         self.stage3 = RentStage3()
         self.rental_info = None
     
