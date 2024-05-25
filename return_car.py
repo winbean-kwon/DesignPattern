@@ -2,13 +2,13 @@ from abc import ABC, abstractmethod
 from rent import RentalServiceFacade
 
 
-class ExcessFeeStrategy(ABC):
+class ExcessFeeStrategy(ABC): # strategy 패턴
     @abstractmethod
     def calculate_fee(self, rental_info):
         pass
 
 class LateReturnFeeStrategy(ExcessFeeStrategy):
-    def calcuate_fee(self, rental_info):
+    def calculate_fee(self, rental_info):
         suppose_date = rental_info['suppose_date']
         return_date = rental_info['return_date']
         if return_date > suppose_date:
@@ -19,7 +19,7 @@ class LateReturnFeeStrategy(ExcessFeeStrategy):
 # class DamageFeeStrategy(ExcessFeeStrategy):
 #     def calculate_fee(self, rental_info)
 
-class PaymentStrategy(ABC):
+class PaymentStrategy(ABC): # strategy 패턴
     @abstractmethod
     def pay(self, amount):
         pass
@@ -56,24 +56,6 @@ class RentalReturnProcessor:
 
         print(f"Total excess fee: {total_fee}")
         self.payment_strategy.pay(total_fee)
-
-def main():
-    rental_service = RentalServiceFacade()
-    
-    rental_info = rental_service.main()
-    
-    return_date_str = input("실제 대여 날짜를 입력하세요: %d")
-    
-    fee_strategies = LateReturnFeeStrategy()
-
-    payment_strategy = CardPaymentStrategy()  # 또는 AccountPaymentStrategy(), PayPaymentStrategy()
-
-    processor = RentalReturnProcessor(fee_strategies, payment_strategy)
-
-    processor.process_return(rental_info, return_date_str)
-
-if __name__ == "__main__":
-    main()
 
 # # fee_strategies = [LateReturnFeeStrategy(), DamageFeeStrategy()]
 # fee_strategies = LateReturnFeeStrategy()

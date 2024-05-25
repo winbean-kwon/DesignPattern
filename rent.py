@@ -145,37 +145,34 @@ class RentalServiceFacade:
         return self.rental_info
 
 
-def main():
-    model_type = input("차종을 입력하세요 (전기차, SUV, 소형, 중형, 대형, 밴): ")
-    rental_days = int(input("대여기간을 입력하세요: "))
+# def main():
+#     model_type = input("차종을 입력하세요 (전기차, SUV, 소형, 중형, 대형, 밴): ")
+#     rental_days = int(input("대여기간을 입력하세요: "))
     
-    options = {
-      "navigation" : "네비게이션",
-      "insurance" : "보험",
-      "bikerack" : "바이크 랙",
-      "childseat" : "유아용 카시트",
-      "wifi" : "와이파이",
-      "sunroof" : "선루프"
-    }
+#     options = {
+#       "navigation" : "네비게이션",
+#       "insurance" : "보험",
+#       "bikerack" : "바이크 랙",
+#       "childseat" : "유아용 카시트",
+#       "wifi" : "와이파이",
+#       "sunroof" : "선루프"
+#     }
         
-    print("옵션 리스트:")
-    for i, (key, value) in enumerate(options.items(), 1):
-        print(f"{i}. {value}")
+#     print("옵션 리스트:")
+#     for i, (key, value) in enumerate(options.items(), 1):
+#         print(f"{i}. {value}")
 
-    while True:
-        try:
-            selected_numbers = map(int, input("추가하고 싶은 옵션의 번호를 쉼표로 구분하여 입력하세요 (예: 1, 3, 5): ").split(','))
-            selected_options = [list(options.keys())[i - 1] for i in selected_numbers if 1 <= i <= len(options)]
-            break
-        except ValueError:
-            print("잘못된 입력입니다. 번호만 입력해주세요.")
-        except IndexError:
-            print("범위를 벗어난 번호가 있습니다. 올바른 번호를 입력해주세요.")
+#     while True:
+#         try:
+#             selected_numbers = map(int, input("추가하고 싶은 옵션의 번호를 쉼표로 구분하여 입력하세요 (예: 1, 3, 5): ").split(','))
+#             selected_options = [list(options.keys())[i - 1] for i in selected_numbers if 1 <= i <= len(options)]
+#             break
+#         except ValueError:
+#             print("잘못된 입력입니다. 번호만 입력해주세요.")
+#         except IndexError:
+#             print("범위를 벗어난 번호가 있습니다. 올바른 번호를 입력해주세요.")
 
-    rental_service = RentalServiceFacade()
-    rental_info = rental_service.rent_car(model_type, rental_days, selected_options)
+#     rental_service = RentalServiceFacade()
+#     rental_info = rental_service.rent_car(model_type, rental_days, selected_options)
 
-    return rental_info
-
-if __name__ == "__main__":
-    main()
+#     return rental_info
