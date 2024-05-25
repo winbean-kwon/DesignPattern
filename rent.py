@@ -16,11 +16,11 @@ class Car:
         return total_cost
     
     def display(self):
-        print(f"차종: {self.model}")
-        print(f"기본 요금: {self.base_cost}")
-        print("옵션:")
+        print(f"\t\t차종: {self.model}")
+        print(f"\t\t기본 요금: {self.base_cost}")
+        print("\t\t   -옵션-")
         for option in self.options:
-            print(f"- {option.name}: {option.cost}원/1일")
+            print(f"\t   - {option.name}: {option.cost}원 / 1일")
         print()
 
 # CarFactory 클래스 - 추상 클래스
@@ -60,32 +60,26 @@ class CarOptionBuilder:
     
     def add_navigation(self):
         self.car.add_option(Option("네비게이션", 1000))
-        print("네비게이션 옵션을 추가하였습니다.")
         return self
     
     def add_insurance(self):
         self.car.add_option(Option("보험", 5000))
-        print("보험 옵션을 추가하였습니다.")
         return self
     
     def add_bikerack(self):
         self.car.add_option(Option("바이크 랙", 2000))
-        print("바이크 랙 옵션을 추가하였습니다.")
         return self
     
     def add_childseat(self):
         self.car.add_option(Option("유아용 카시트", 3000))
-        print("유아용 카시트 옵션을 추가하였습니다.")
         return self
     
     def add_wifi(self):
         self.car.add_option(Option("와이파이", 2500))
-        print("와이파이 옵션을 추가하였습니다.")
         return self
     
     def add_sunroof(self):
         self.car.add_option(Option("선루프", 4000))
-        print("선루프 옵션을 추가하였습니다.")
         return self
     
     def build(self):
@@ -117,7 +111,7 @@ class RentStage3:
     def finalize_rental(self, car, rental_days):
         total_cost = car.calculate_total_cost(rental_days)
         car.display()
-        print(f"{rental_days}일간 렌트시 최종 금액: {total_cost}원")
+        print(f"\t{rental_days}일간 렌트시 최종 금액: {total_cost}원")
 
 # RentalServiceFacade 클래스: 모든 대여 과정을 처리
 class RentalServiceFacade:

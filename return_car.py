@@ -17,7 +17,7 @@ class LateReturnFeeStrategy(ExcessFeeStrategy):
         return_date = datetime.strptime(return_date_str, "%Y-%m-%d").date()
         
         if return_date > due_date:
-            print("대여 일수가 초과되었습니다. 초과분까지 정산합니다.")
+            print("\t대여 일수가 초과되었습니다.\n\t초과분까지 정산합니다.")
             extra_days = (return_date - due_date).days
             return extra_days * rental_info['car'].base_cost
         return 0
@@ -39,15 +39,15 @@ class PaymentStrategy:
 
 class CardPaymentStrategy(PaymentStrategy):
     def pay(self, amount):
-        print(f"신용카드로 {amount}원을 결제합니다.")
+        print(f"\t신용카드로 {amount}원을 결제합니다.")
 
 class AccountPaymentStrategy(PaymentStrategy):
     def pay(self, amount):
-        print(f"계좌이체로 {amount}원을 결제합니다.")
+        print(f"\t계좌이체로 {amount}원을 결제합니다.")
 
 class PayPaymentStrategy(PaymentStrategy):
     def pay(self, amount):
-        print(f"모바일 페이로 {amount}원을 결제합니다.")
+        print(f"\t모바일 페이로 {amount}원을 결제합니다.")
 
 
 def update_rent_history(phone, rent_index, rent_info):

@@ -34,7 +34,7 @@ class Customer:
             'email': email, 
             'rent_history': []
         })
-        print(name + "님이 회원 등록이 되었습니다.")
+        print("\n\t"+ name + "님이 회원 등록이 되었습니다.")
         self.save_customers_to_csv()
         return True
 
@@ -58,14 +58,14 @@ class Customer:
         self.name = customer_info['name']
         self.phone = customer_info['phone']
         self.email = customer_info['email']
-        print("회원 정보가 성공적으로 업데이트 되었습니다.")
+        print("  회원 정보가 성공적으로 업데이트 되었습니다.")
         self.save_customers_to_csv()
 
     def view_customer_info(self):
-        print(f"이름: {self.name}")
-        print(f"전화번호: {self.phone}")
-        print(f"이메일: {self.email}")
-        print("대여 기록:")
+        print(f"\t\t이름: {self.name}")
+        print(f"\t\t전화번호: {self.phone}")
+        print(f"\t\t이메일: {self.email}")
+        print("\t\t대여 기록:")
         for history in self.rent_history:
             print(history)
 

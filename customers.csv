@@ -1,3 +1,2 @@
 name,phone,email,rent_history
-d,d,d,"[{'car': <rent.Car object at 0x102ba2400>, 'model_type': 'SUV', 'rental_days': 5, 'options': ['navigation', 'insurance', 'childseat'], 'total_cost': 220000, 'rental_start_date': '2024-05-25', 'due_date': '2024-05-30'}]"
-승빈,01011111111,202204426@hufs.ac.kr,[]
+공예진,0102687091010,0910a@naver.com,"[{'car': <rent.Car object at 0x1010dcec0>, 'model_type': '전기차', 'rental_days': 3, 'options': ['navigation', 'bikerack'], 'total_cost': 69000, 'rental_start_date': '2024-05-26', 'due_date': '2024-05-29'}]"
