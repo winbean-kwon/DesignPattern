@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 # Car 클래스: 차종과 기본 요금 관리, 옵션 추가 메서드, 총 비용 계산 메서드
 class Car:
     def __init__(self, model, base_cost):
@@ -135,7 +134,7 @@ class RentalServiceFacade:
         self.rental_info = {
             'car': car,
             'model_type': model_type,
-            'retal_days': rental_days,
+            'rental_days': rental_days,
             'options': options,
             'total_cost': car.calculate_total_cost(rental_days)
         }
@@ -143,36 +142,3 @@ class RentalServiceFacade:
     
     def get_rental_info(self):
         return self.rental_info
-
-
-# def main():
-#     model_type = input("차종을 입력하세요 (전기차, SUV, 소형, 중형, 대형, 밴): ")
-#     rental_days = int(input("대여기간을 입력하세요: "))
-    
-#     options = {
-#       "navigation" : "네비게이션",
-#       "insurance" : "보험",
-#       "bikerack" : "바이크 랙",
-#       "childseat" : "유아용 카시트",
-#       "wifi" : "와이파이",
-#       "sunroof" : "선루프"
-#     }
-        
-#     print("옵션 리스트:")
-#     for i, (key, value) in enumerate(options.items(), 1):
-#         print(f"{i}. {value}")
-
-#     while True:
-#         try:
-#             selected_numbers = map(int, input("추가하고 싶은 옵션의 번호를 쉼표로 구분하여 입력하세요 (예: 1, 3, 5): ").split(','))
-#             selected_options = [list(options.keys())[i - 1] for i in selected_numbers if 1 <= i <= len(options)]
-#             break
-#         except ValueError:
-#             print("잘못된 입력입니다. 번호만 입력해주세요.")
-#         except IndexError:
-#             print("범위를 벗어난 번호가 있습니다. 올바른 번호를 입력해주세요.")
-
-#     rental_service = RentalServiceFacade()
-#     rental_info = rental_service.rent_car(model_type, rental_days, selected_options)
-
-#     return rental_info
