@@ -7,9 +7,11 @@ from datetime import datetime, timedelta
 def print_top_bar(title=""):
     current_time = datetime.now().strftime("%H:%M")
     battery = "🔋100%"
+    signal = "📶"
     bar_length = 48  
+    icons_length = len(current_time) + len(battery) + len(signal) + 3
     print("─" * bar_length)
-    print(f"{current_time}{' ' * (bar_length - len(current_time) - len(battery) - 2)}{battery}")
+    print(f"{signal} {current_time}{' ' * (bar_length - icons_length)}{battery}")
     print("─" * bar_length)
     if title:
         print(f"{title}".center(bar_length))

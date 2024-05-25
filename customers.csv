@@ -1,2 +1,0 @@
-name,phone,email,rent_history
-공예진,0102687091010,0910a@naver.com,"[{'car': <rent.Car object at 0x1010dcec0>, 'model_type': '전기차', 'rental_days': 3, 'options': ['navigation', 'bikerack'], 'total_cost': 69000, 'rental_start_date': '2024-05-26', 'due_date': '2024-05-29'}]"
