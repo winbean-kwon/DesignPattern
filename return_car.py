@@ -1,41 +1,26 @@
-from abc import ABC, abstractmethod
-from rent import RentalServiceFacade
+from datetime import datetime, timedelta
 
 
-class ExcessFeeStrategy(ABC): # strategy 패턴
-    @abstractmethod
+class ExcessFeeStrategy:
     def calculate_fee(self, rental_info):
         pass
 
 class LateReturnFeeStrategy(ExcessFeeStrategy):
+    def __init__(self, overdue_days):
+        self.overdue_days = overdue_days
+
     def calculate_fee(self, rental_info):
-        suppose_date = rental_info['suppose_date']
-        return_date = rental_info['return_date']
-        if return_date > suppose_date:
-            extra_days = return_date - suppose_date
+        due_date_str = rental_info['due_date']
+        return_date_str = rental_info['return_date']
+        
+        due_date = datetime.strptime(due_date_str, "%Y-%m-%d").date()
+        return_date = datetime.strptime(return_date_str, "%Y-%m-%d").date()
+        
+        if return_date > due_date:
+            print("대여 일수가 초과되었습니다. 초과분까지 정산합니다.")
+            extra_days = (return_date - due_date).days
             return extra_days * rental_info['car'].base_cost
         return 0
-
-# class DamageFeeStrategy(ExcessFeeStrategy):
-#     def calculate_fee(self, rental_info)
-
-class PaymentStrategy(ABC): # strategy 패턴
-    @abstractmethod
-    def pay(self, amount):
-        pass
-
-class CardPaymentStrategy(PaymentStrategy):
-    def pay(self, amount):
-        print(f"신용카드로 {amount} 원이 결제되었습니다.")
-
-class AccountPaymentStrategy(PaymentStrategy):
-    def pay(self, amount):
-        print(f"계좌이체로 {amount} 원이 결제되었습니다.")
-
-class PayPaymentStrategy(PaymentStrategy):
-    def pay(self, amount):
-        print(f"페이로 {amount} 원이 결제되었습니다.")
-
 
 class RentalReturnProcessor:
     def __init__(self, fee_strategies, payment_strategy):
@@ -44,24 +29,26 @@ class RentalReturnProcessor:
 
     def process_return(self, rental_info, return_date):
         total_fee = 0
-        rental_info['return_date'] = return_date
-
         for strategy in self.fee_strategies:
             total_fee += strategy.calculate_fee(rental_info)
-        
-        is_late = return_date > rental_info['due_date']
-        if is_late:
-            late_days = (return_date - rental_info['due_date']).days
-            total_fee += rental_info['car'].base_cost * late_days
-
-        print(f"Total excess fee: {total_fee}")
         self.payment_strategy.pay(total_fee)
 
-# # fee_strategies = [LateReturnFeeStrategy(), DamageFeeStrategy()]
-# fee_strategies = LateReturnFeeStrategy()
+class PaymentStrategy:
+    def pay(self, amount):
+        pass
 
-# payment_strategy = CardPaymentStrategy() # 또는 AccountPaymentStrategy(), PayPaymentStrategy()
+class CardPaymentStrategy(PaymentStrategy):
+    def pay(self, amount):
+        print(f"신용카드로 {amount}원을 결제합니다.")
 
-# processor = RentalReturnProcessor(fee_strategies, payment_strategy)
+class AccountPaymentStrategy(PaymentStrategy):
+    def pay(self, amount):
+        print(f"계좌이체로 {amount}원을 결제합니다.")
 
-# processor.process_return(rental_info)
+class PayPaymentStrategy(PaymentStrategy):
+    def pay(self, amount):
+        print(f"모바일 페이로 {amount}원을 결제합니다.")
+
+
+def update_rent_history(phone, rent_index, rent_info):
+    pass
