@@ -78,7 +78,7 @@ def main():
                             print(f"\t{options[opt]} 옵션이 추가되었습니다.")
                         input("\n\t최종 렌트 정보를 확인하시겠습니까? \n\t\tEnter를 눌러주세요.")
                         clear_screen()
-                        print_top_bar("렌트 정보 확인  ")
+                        print_top_bar("렌트 정보 확인      ")
                         
                         rental_info = rental_service.rent_car(model_type, rental_days, selected_options)
                         
