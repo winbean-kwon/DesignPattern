@@ -116,10 +116,10 @@ def main():
                 clear_screen()
                 print_top_bar("차량 반납  ")
                 rent_info = customer_info['current_rent']
-                print("\t현재 대여 정보:")
+                print("\t- 현재 대여 정보 -")
                 for key, value in rent_info.items():
                     print(f"\t{key}: {value}")
-                return_date_str = input("\t반납 날짜를 입력하세요\n\t(YYYY-MM-DD): ").strip()
+                return_date_str = input("\n\t반납 날짜를 입력하세요\n\t(YYYY-MM-DD): ").strip()
                 try:
                     return_date = datetime.strptime(return_date_str, "%Y-%m-%d").date()
                 except ValueError:

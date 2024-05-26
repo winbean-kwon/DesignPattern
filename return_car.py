@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from rent import Car 
 
 # Strategy 패턴 파트
 class ExcessFeeStrategy:
@@ -17,9 +18,16 @@ class LateReturnFeeStrategy(ExcessFeeStrategy): # strategy 패턴: 반납 늦게
         return_date = datetime.strptime(return_date_str, "%Y-%m-%d").date()
         
         if return_date > due_date:
-            print("\t대여 일수가 초과되었습니다.\n\t초과분까지 정산합니다.")
+            print("\n\t대여 일수가 초과되었습니다.\n\t초과분까지 정산합니다.")
             extra_days = (return_date - due_date).days
-            return extra_days * rental_info['car'].base_cost
+
+            # car가 dict이면 Car 객체로 변환해야합니다! 
+            if isinstance(rental_info['car'], dict):
+                car = Car.from_dict(rental_info['car'])
+            else:
+                car = rental_info['car']
+
+            return extra_days * car.base_cost 
         return 0
 
 class RentalReturnProcessor:
@@ -39,16 +47,15 @@ class PaymentStrategy:
 
 class CardPaymentStrategy(PaymentStrategy):
     def pay(self, amount):
-        print(f"\t신용카드로 {amount}원을 결제합니다.")
+        print(f"\n\t신용카드로 {amount}원을 결제합니다.")
 
 class AccountPaymentStrategy(PaymentStrategy):
     def pay(self, amount):
-        print(f"\t계좌이체로 {amount}원을 결제합니다.")
+        print(f"\n\t계좌이체로 {amount}원을 결제합니다.")
 
 class PayPaymentStrategy(PaymentStrategy):
     def pay(self, amount):
-        print(f"\t모바일 페이로 {amount}원을 결제합니다.")
-
+        print(f"\n\t모바일 페이로 {amount}원을 결제합니다.")
 
 def update_rent_history(phone, rent_index, rent_info):
     pass
