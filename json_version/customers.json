@@ -1,0 +1,62 @@
+[
+    {
+        "name": "공예진",
+        "phone": "0000",
+        "email": "0910a",
+        "rent_history": [
+            {
+                "car": {
+                    "model": "전기차",
+                    "base_cost": 20000,
+                    "options": [
+                        {
+                            "name": "네비게이션",
+                            "cost": 1000
+                        },
+                        {
+                            "name": "바이크 랙",
+                            "cost": 2000
+                        }
+                    ]
+                },
+                "model_type": "전기차",
+                "rental_days": 3,
+                "options": [
+                    "navigation",
+                    "bikerack"
+                ],
+                "total_cost": 69000,
+                "rental_start_date": "2024-05-26",
+                "due_date": "2024-05-29",
+                "return_date": "2024-06-3"
+            },
+            {
+                "car": {
+                    "model": "전기차",
+                    "base_cost": 20000,
+                    "options": [
+                        {
+                            "name": "네비게이션",
+                            "cost": 1000
+                        },
+                        {
+                            "name": "바이크 랙",
+                            "cost": 2000
+                        }
+                    ]
+                },
+                "model_type": "전기차",
+                "rental_days": 3,
+                "options": [
+                    "navigation",
+                    "bikerack"
+                ],
+                "total_cost": 69000,
+                "rental_start_date": "2024-05-26",
+                "due_date": "2024-05-29",
+                "return_date": "2024-06-03"
+            }
+        ],
+        "current_rent": null
+    }
+]
