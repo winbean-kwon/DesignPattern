@@ -36,6 +36,38 @@
                 "return_date": "2024-06-14"
             }
         ],
-        "current_rent": null
+        "current_rent": [
+            {
+                "car": {
+                    "model": "전기차",
+                    "base_cost": 20000,
+                    "options": [
+                        {
+                            "name": "네비게이션",
+                            "cost": 1000
+                        },
+                        {
+                            "name": "보험",
+                            "cost": 5000
+                        },
+                        {
+                            "name": "유아용 카시트",
+                            "cost": 3000
+                        }
+                    ]
+                },
+                "model_type": "전기차",
+                "rental_days": 10,
+                "options": [
+                    "navigation",
+                    "insurance",
+                    "childseat"
+                ],
+                "total_cost": 290000,
+                "rental_start_date": "2024-05-26",
+                "due_date": "2024-06-05",
+                "return_date": "2024-06-14"
+            }
+        ]
     }
 ]

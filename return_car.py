@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from rent import Car 
+from recipe import print_receipt
 
 # Strategy 패턴 파트
 class ExcessFeeStrategy:

@@ -102,7 +102,7 @@ class Customer:
         return True
 
     def save_customers_to_json(self): # json 파일에 고객 정보 저장
-        with open(Customer.json_file, 'w') as jsonfile:
+        with open(Customer.json_file, 'w', encoding='utf8') as jsonfile:
             customer_list_copy = []
             for customer in Customer.customer_list:
                 customer_copy = customer.copy()
@@ -114,7 +114,7 @@ class Customer:
 
     def load_customers_from_json(self): # json 파일로부터 고객 정보 읽음
         try:
-            with open(Customer.json_file, 'r') as jsonfile:
+            with open(Customer.json_file, 'r', encoding='utf8') as jsonfile:
                 customer_list_copy = json.load(jsonfile)
                 for customer in customer_list_copy:
                     try:

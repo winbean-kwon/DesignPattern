@@ -6,6 +6,9 @@ class Option:
         self.name = name
         self.cost = cost
 
+    def __str__(self):
+        return f"{self.name} ({self.price}원)"
+
 # Car 클래스: 차종과 기본 요금 관리, 옵션 추가 메서드, 총 비용 계산 메서드
 class Car:
     def __init__(self, model, base_cost):
