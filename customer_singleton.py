@@ -18,6 +18,7 @@ class Customer:
             self.phone = None
             self.email = None
             self.rent_history = []
+            self.current_rent = None
             self._initiated = True # True로 바꿨기에 더 이상 초기화 되지 않음
             self.load_customers_from_csv()  # csv 파일에서 고객 정보 불러옴 
             #-> 기존에 저장된 고객 정보 메모리에 로드해서, 조회 및 수정 가능하게 할 수 있음 (아래 메소드 있어요)
@@ -34,7 +35,8 @@ class Customer:
             'name': name, 
             'phone': phone, 
             'email': email, 
-            'rent_history': []
+            'rent_history': [],
+            'current_rent': None
         })
         print("\n\t"+ name + "님이 회원 등록이 되었습니다.")
         self.save_customers_to_csv()
@@ -47,6 +49,7 @@ class Customer:
                 self.phone = customer_info['phone']
                 self.email = customer_info['email']
                 self.rent_history = customer_info['rent_history']
+                self.current_rent = customer_info['current_rent']
                 self.view_customer_info()   # 고객 정보 출력 (아래 메소드 있어요)
                 return customer_info
         print("회원 정보를 찾을 수 없습니다.")
@@ -71,19 +74,49 @@ class Customer:
         print("\t\t대여 기록:")
         for history in self.rent_history:
             print(history)
+        print("현재 대여:")
+        print(self.current_rent)
+
+    def add_current_rent(self, customer_info, rent_info):
+        customer_info['current_rent'] = rent_info
+        self.current_rent = rent_info
+        self.save_customers_to_csv()
 
     def add_rent_history(self, customer_info, rent_info):   # 대여 내역 추가
+        if 'rent_history' not in customer_info:
+            customer_info['rent_history'] = []
         customer_info['rent_history'].append(rent_info)
-        self.save_customers_to_csv()
+
+    def return_car(self, customer_info, return_date_str):
+        if not self.current_rent:
+            print("현재 대여 중인 차량이 없습니다.")
+            return False
+        
+        rent_info = self.current_rent
+        rent_info['return_date'] = return_date_str
+        self.add_rent_history(customer_info, rent_info)
+        customer_info['current_rent'] = None
+        print(f"차량이 {return_date_str}에 반납되었습니다.")
+        return True
+
+    def update_rent_history(self, phone, rent_index, updated_rent_info):
+        for customer_info in Customer.customer_list:
+            if customer_info['phone'] == phone:
+                if rent_index < len(customer_info['rent_history']):
+                    customer_info['rent_history'][rent_index] = updated_rent_info
+                    self.save_customers_to_csv()
+                    return True
+        return False
 
     def save_customers_to_csv(self):    # csv파일에 고객 정보 저장. 근데 current_rent 하나 추가해야할듯
         with open(Customer.csv_file, 'w', newline='') as csvfile:
-            fieldnames = ['name', 'phone', 'email', 'rent_history']
+            fieldnames = ['name', 'phone', 'email', 'rent_history', 'current_rent']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             for customer in Customer.customer_list:
                 customer_copy = customer.copy()
                 customer_copy['rent_history'] = str(customer_copy['rent_history'])
+                customer_copy['current_rent'] = str(customer_copy['current_rent'])
                 writer.writerow(customer_copy)
     
     def load_customers_from_csv(self):  # csv파일로부터 고객 정보 읽음
@@ -92,6 +125,7 @@ class Customer:
                 reader = csv.DictReader(csvfile)
                 for row in reader:
                     row['rent_history'] = eval(row['rent_history'])
+                    row['current_rent'] = eval(row['current_rent']) if row['current_rent'] != 'None' else None
                     Customer.customer_list.append(row)
         except FileNotFoundError:
             print("CSV 파일을 찾을 수 없습니다.")

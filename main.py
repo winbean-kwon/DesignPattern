@@ -89,13 +89,22 @@ def main():
                         due_date = rental_start_date + timedelta(days=rental_days)  # 렌탈 일 수를 입력 받아 현재 날짜에서 더함
                         rental_info['due_date'] = due_date.strftime("%Y-%m-%d") # 마찬가지로 due_date에 저장
 
-                        customer.add_rent_history(customer_info, rental_info)
-                        input("\n\t  확인 후 Enter를 눌러주세요")
+                        customer.add_current_rent(customer_info, rental_info)
+                        
+                        print("\t렌트 정보가 추가되었습니다. ")
+                        print("\n\t회원 이름: ", customer_info['name'])
+                        print("\t차량 모델: ", model_type)
+                        print("\t렌트 기간: ", rental_days, "일")
+                        print("\t추가 옵션: ", ", ".join(options[opt] for opt in selected_options))
+                        print("\t시작 날짜: ", rental_info['rental_start_date'])
+                        print("\t반납 날짜: ", rental_info['due_date'])
+                        input("\n\t계속 진행하시려면 Enter를 눌러주세요")
                         break
                     except ValueError:
-                        print("\n\t\t잘못된 입력입니다. 번호만 입력해주세요.")
-                    except IndexError:
-                        print("\n\t\t범위를 벗어난 번호가 있습니다.\n올바른 번호를 입력해주세요.")
+                        print("\n\t잘못된 입력입니다. 다시 시도해주세요.")
+                        input("\n\t계속 진행하시려면 Enter를 눌러주세요")
+                        clear_screen()
+        
         
         elif choice == '2':
             clear_screen()
@@ -103,37 +112,52 @@ def main():
             phone = input("\t전화번호를 입력하세요: ").strip()
             customer_info = customer.search_customer(phone)
             input("\n\t대여 정보가 맞으시면 Enter를 눌러주세요")
-            if customer_info:
+            if customer_info and customer_info['current_rent']:
                 clear_screen()
                 print_top_bar("차량 반납  ")
-                rent_index = int(input("   반납할 대여 기록 인덱스를 입력하세요: ").strip())    # 인덱스 입력하게 말고 다른 입력할 거로 바꿔야할듯
-                if rent_index < len(customer_info['rent_history']): # if 저장된 인덱스 개수보다 작으면 (예외처리 필요할듯)
-                    rent_info = customer_info['rent_history'][rent_index]
-                    due_date = datetime.strptime(rent_info['due_date'], "%Y-%m-%d").date()
-                    return_date_str = input("\t반납 날짜를 입력하세요\n\t(YYYY-MM-DD): ").strip()
+                rent_info = customer_info['current_rent']
+                print("\t현재 대여 정보:")
+                for key, value in rent_info.items():
+                    print(f"\t{key}: {value}")
+                return_date_str = input("\t반납 날짜를 입력하세요\n\t(YYYY-MM-DD): ").strip()
+                try:
                     return_date = datetime.strptime(return_date_str, "%Y-%m-%d").date()
-                    rent_info['return_date'] = return_date_str
+                except ValueError:
+                    print("\t잘못된 날짜 형식입니다.")
+                    input("\n\t계속 진행하시려면 Enter를 눌러주세요")
+                    continue
 
-                    if return_date > due_date:  # 초과 일수 및 금액 계산 (수정 필요)
-                        overdue_days = (return_date - due_date).days
-                        fee_strategies = [LateReturnFeeStrategy(overdue_days)]
-                    else:
-                        fee_strategies = []
+                due_date = datetime.strptime(rent_info['due_date'], "%Y-%m-%d").date()
+                rent_info['return_date'] = return_date_str
 
-                    payment_method = input("\n\t결제 방법을 입력하세요\n\t(card/account/pay): ").strip()
-                    if payment_method == "card":
-                        payment_strategy = CardPaymentStrategy()
-                    elif payment_method == "account":
-                        payment_strategy = AccountPaymentStrategy()
-                    elif payment_method == "pay":
-                        payment_strategy = PayPaymentStrategy()
-                    else:
-                        print("\t\t잘못된 결제 방법입니다.")
-                        continue
-                    processor = RentalReturnProcessor(fee_strategies, payment_strategy) # 반납 하면서 기록 다른 인덱스로 옮겨야할 듯
-                    processor.process_return(rent_info, return_date)
+                if return_date > due_date:
+                    overdue_days = (return_date - due_date).days
+                    fee_strategies = [LateReturnFeeStrategy(overdue_days)]
+                else:
+                    fee_strategies = []
 
-                    customer.update_rent_history(phone, rent_index, rent_info)
+                payment_method = input("\n\t결제 방법을 입력하세요\n\t(card/account/pay): ").strip()
+                if payment_method == "card":
+                    payment_strategy = CardPaymentStrategy()
+                elif payment_method == "account":
+                    payment_strategy = AccountPaymentStrategy()
+                elif payment_method == "pay":
+                    payment_strategy = PayPaymentStrategy()
+                else:
+                    print("\t\t잘못된 결제 방법입니다.")
+                    input("\n\t계속 진행하시려면 Enter를 눌러주세요")
+                    continue
+
+                processor = RentalReturnProcessor(fee_strategies, payment_strategy)
+                processor.process_return(rent_info, return_date)
+
+                customer.return_car(customer_info, return_date_str)
+
+                print("\t차량이 반납되었습니다.")
+                input("\n\t계속 진행하시려면 Enter를 눌러주세요")
+            else:
+                print("\t대여 정보가 없습니다.")
+                input("\n\t계속 진행하시려면 Enter를 눌러주세요")
         
         elif choice == '3':
             clear_screen()
