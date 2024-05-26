@@ -149,12 +149,12 @@ class RentalServiceFacade:
         car = self.stage1.select_car(model_type)
         car = self.stage2.add_options(car, options)
         self.stage3.finalize_rental(car, rental_days)
-        # car 객체를 dict로 변환하여 저장합니다. 이는 JSON으로 저장할 때 필요합니다.
+        # car 객체를 dict로 변환하여 저장함(JSON으로 저장할 때 필요)
         self.rental_info = {
-            'car': car.to_dict(),
+            'car': car.to_dict(),  # 한글 모델명 그대로 저장
             'model_type': model_type,
             'rental_days': rental_days,
-            'options': options,
+            'options': [option for option in options],  # 한글 옵션명을 그대로 저장 
             'total_cost': car.calculate_total_cost(rental_days)
         }
         return self.rental_info
