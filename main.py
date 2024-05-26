@@ -3,7 +3,7 @@ from rent import RentalServiceFacade
 from return_car import RentalReturnProcessor, LateReturnFeeStrategy, CardPaymentStrategy, AccountPaymentStrategy, PayPaymentStrategy
 from customer_singleton import Customer
 from datetime import datetime, timedelta
-from recipe import print_receipt
+from receipt_visual import print_receipt
 
 def print_top_bar(title=""):
     current_time = datetime.now().strftime("%H:%M")
@@ -197,24 +197,23 @@ def main():
                 clear_screen()
                 print_top_bar()
                 processor = RentalReturnProcessor(fee_strategies, payment_strategy)
-                processor.process_return(rent_info, return_date) 
-                
+                processor.process_return(rent_info, return_date)                 
+                total_fee, final_cost, rental_info = processor.process_return(rent_info, return_date)
+
                 customer.return_car(customer_info, return_date_str) 
 
-<<<<<<< HEAD
-
-                customer.return_car(customer_info, return_date_str)
-
                 print("\t차량이 반납되었습니다.")
-                print_receipt(rental_info)  # 반납 영수증 출력
+                
+                #영수증 출력
+                print_receipt(rent_info, payment_method, final_cost, total_fee)
+
                 input("\n\t계속 진행하시려면 Enter를 눌러주세요")
+
             else:
                 print("\t대여 정보가 없습니다.")
                 input("\n\t계속 진행하시려면 Enter를 눌러주세요")
-=======
                 input("\n\t확인 후 Enter를 눌러주세요")
 
->>>>>>> 6f385d7fb3dd7e95ea6888f40aa372ffb403b351
         
         elif choice == '3':
             clear_screen()

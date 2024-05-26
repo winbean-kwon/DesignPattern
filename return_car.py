@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 from rent import Car 
-from recipe import print_receipt
 
 # Strategy 패턴 파트
 class ExcessFeeStrategy:
@@ -50,7 +49,7 @@ class RentalReturnProcessor:
         
         self.payment_strategy.pay(final_cost)
         
-        return total_fee, final_cost # 추가금액, 최종 결제 금액 반환하도록 변경
+        return total_fee, final_cost, rental_info # 추가금액, 최종 결제 금액 반환하도록 변경
 
 class PaymentStrategy:
     def pay(self, amount):
