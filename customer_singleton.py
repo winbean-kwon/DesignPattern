@@ -1,5 +1,5 @@
 import json
-from rent import Car  
+from rent import Car, RentalServiceFacade
 
 class Customer:
     _instance = None # singleton 인스턴스 저장
@@ -24,8 +24,11 @@ class Customer:
 
     def add_customer(self, name, phone, email): # 고객 추가 메소드
         for customer_info in Customer.customer_list:
-            if customer_info['email'] == email or customer_info['phone'] == phone:
-                print("\t잘못 입력하셨습니다.")
+            if customer_info['email'] == email:
+                print(f"\n\t이미 등록된 이메일입니다: {email}") # 기존에 존재하는 이메일이면 False 리턴
+                return False
+            if customer_info['phone'] == phone:
+                print(f"\n\t이미 등록된 전화번호입니다: {phone}") # 기존에 존재하는 번호면 False 리턴
                 return False
         self.name = name
         self.phone = phone
@@ -57,25 +60,56 @@ class Customer:
 
     def update_customer_info(self, customer_info, field, new_value): # 고객 정보 수정 메소드
         if field == 'phone': # 지금은 번호랑 이메일만 수정하게 했는데 이름도 바꿀 수 있게 할까요? + 바꾸려는거 선택해서 바꿀 수 있게?
-            # ex) 전화번호만 바꾸고싶으면 전화번호만 바꿀 수 있게 -> 근데 이런 디테일까지는 필요 없을 것 같기도 하고요..
+            for customer in Customer.customer_list:
+                if customer['phone'] == new_value:
+                    print(f"\n\t이미 등록된 전화번호입니다: {new_value}") 
+                    return False 
             customer_info['phone'] = new_value
         elif field == 'email':
+            for customer in Customer.customer_list:
+                if customer['email'] == new_value:
+                    print(f"\n\t이미 등록된 이메일입니다: {new_value}")
+                    return False
             customer_info['email'] = new_value
         self.name = customer_info['name']
         self.phone = customer_info['phone']
         self.email = customer_info['email']
         print("  회원 정보가 성공적으로 업데이트 되었습니다.")
         self.save_customers_to_json()
+        return True  # 성공 시 True 반환
 
     def view_customer_info(self): # 고객 조회 메소드
         print(f"\t\t이름: {self.name}")
         print(f"\t\t전화번호: {self.phone}")
         print(f"\t\t이메일: {self.email}")
-        print("\t\t< 대여 기록 >")
-        for history in self.rent_history:
-            print(history)
+        print("\n\t\t< 대여 기록 >")
+        if self.rent_history:
+            for history in self.rent_history:
+                self.print_rent_info(history)  
+        else:
+            print("\t\t    없음")
+     
         print("\n\t\t< 현재 대여 >")
-        print(self.current_rent)
+        if self.current_rent:
+            self.print_rent_info(self.current_rent)
+        else:
+            print("\t\t    없음") 
+
+    def print_rent_info(self, rent_info):  # json으로 화면에 출력되는 게 지저분해서 메서드 추가했습니다. 
+        if rent_info:
+            car_info = rent_info.get('car', {}) 
+            options = [option['name'] for option in car_info.get('options', [])]  
+            print(f"\n\t회원 이름: {self.name}")
+            print(f"\t차량 모델: {car_info.get('model', 'N/A')}")  
+            print(f"\t렌트 기간: {rent_info.get('rental_days', 'N/A')}일")
+            print(f"\t추가 옵션: {', '.join(options)}") 
+            print(f"\t최종 금액: {rent_info.get('total_cost', 'N/A')}원")
+            print(f"\t시작 날짜: {rent_info.get('rental_start_date', 'N/A')}")
+            print(f"\t반납 날짜: {rent_info.get('due_date', 'N/A')}")
+            if 'return_date' in rent_info:
+                print(f"\t반납 완료 날짜: {rent_info['return_date']}")
+        else:
+            print("\t\t   없음")
 
     def add_current_rent(self, customer_info, rent_info):
         customer_info['current_rent'] = rent_info
@@ -95,8 +129,8 @@ class Customer:
         rent_info = self.current_rent
         rent_info['return_date'] = return_date_str
         self.add_rent_history(customer_info, rent_info)
-        customer_info['current_rent'] = None  
-        self.current_rent = None  
+        customer_info['current_rent'] = None
+        self.current_rent = None
         self.save_customers_to_json()  # 변경 사항을 저장
         print(f"\t차량이 {return_date_str}에 반납되었습니다.")
         return True

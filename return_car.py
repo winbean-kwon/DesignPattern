@@ -39,7 +39,17 @@ class RentalReturnProcessor:
         total_fee = 0
         for strategy in self.fee_strategies:
             total_fee += strategy.calculate_fee(rental_info)
-        self.payment_strategy.pay(total_fee)
+        
+        # 추가금액과 최종 결제 금액 계산 후 출력    
+        base_cost = rental_info['total_cost']
+        final_cost = base_cost + total_fee
+        
+        print(f"\n\t추가 금액은 {total_fee}원입니다.") 
+        print(f"\t최종 결제 금액은 {final_cost}원입니다.")
+        
+        self.payment_strategy.pay(final_cost)
+        
+        return total_fee, final_cost # 추가금액, 최종 결제 금액 반환하도록 변경
 
 class PaymentStrategy:
     def pay(self, amount):
