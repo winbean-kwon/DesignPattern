@@ -1,11 +1,11 @@
 from datetime import datetime, timedelta
 
-
+# Strategy 패턴 파트
 class ExcessFeeStrategy:
     def calculate_fee(self, rental_info):
         pass
 
-class LateReturnFeeStrategy(ExcessFeeStrategy):
+class LateReturnFeeStrategy(ExcessFeeStrategy): # strategy 패턴: 반납 늦게했을 때 금액 산정 파트
     def __init__(self, overdue_days):
         self.overdue_days = overdue_days
 
