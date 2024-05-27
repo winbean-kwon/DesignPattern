@@ -11,11 +11,9 @@ def load_car_inventory():   # cars.json 파일로부터 차량 재고를 불러�
     with open('cars.json', 'r') as file:
         return json.load(file)
 
-
 def save_car_inventory(inventory):  # 차량 재고를 저장합니다
     with open('cars.json', 'w') as file:
         json.dump(inventory, file, ensure_ascii=False, indent=4)
-
 
 def get_car_stock(model, inventory):    # 차량 모델 재고를 불러옵니다.
 
@@ -34,7 +32,6 @@ def update_car_stock(model, inventory, change): # 차량 모델 재고를 업데
 
 
 def main(): # 차량 렌탈 관리자 프로그램 메인 화면입니다.
-
     customer = Customer()
     rental_service = RentalServiceFacade()
     car_inventory = load_car_inventory()
@@ -66,7 +63,6 @@ def main(): # 차량 렌탈 관리자 프로그램 메인 화면입니다.
             break
         else:
             input("\n\t잘못된 옵션입니다.\n\t다시 시도하시려면 Enter를 눌러주세요.")
-
 
 
 # 메인 화면 choice 별 세부 프로세스 함수들을 아래 정리하였습니다.
@@ -131,7 +127,6 @@ def select_car_model(): # 차량 모델 선택
             return model_type
         else:
             input("\n\t잘못된 차종입니다.\n\t다시 입력하시려면 Enter를 눌러주세요.")
-
 
 def select_rental_days():   # 대여 일수 선택
     while True:

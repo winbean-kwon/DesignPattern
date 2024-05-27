@@ -22,7 +22,17 @@ def print_receipt(rental_info, payment_method, final_cost, total_fee):
         receipt += f"{option['name']}: {option['cost']}원/일\n"
     receipt += f"합산 금액: {rental_info['total_cost']}\n"
     receipt += f"추가 금액: {total_fee}원\n"
-    receipt += f"결제 방식: {payment_method}\n"
+
+    if payment_method == "CardPaymentStrategy":
+        payment_method_str = "card"
+    elif payment_method == "AccountPaymentStrategy":
+        payment_method_str = "account"
+    elif payment_method == "PayPaymentStrategy":
+        payment_method_str = "pay"
+    else:
+        payment_method_str = "unknown"
+        
+    receipt += f"결제 방식: {payment_method_str}\n"
     receipt += "─" * bar_length
     receipt += "\n저희 서비스를 이용해주셔서 감사합니다\n"
     receipt += "─" * bar_length
