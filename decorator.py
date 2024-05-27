@@ -1,3 +1,10 @@
+from datetime import datetime, timedelta
+import os
+
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def print_receipt(rental_info, payment_method, final_cost, total_fee):
     receipt = ""
     bar_length = 48  
@@ -22,3 +29,22 @@ def print_receipt(rental_info, payment_method, final_cost, total_fee):
     print(receipt)
 
     print("\n영수증을 출력합니다")
+
+def print_top_bar(title=""):
+    current_time = datetime.now().strftime("%H:%M")
+    battery = "🔋100%"
+    signal = "📶"
+    bar_length = 48  
+    icons_length = len(current_time) + len(battery) +  len(signal) + 3
+    print("─" * bar_length)
+    print(f"{signal} {current_time}{' ' * (bar_length - icons_length)}{battery}")
+    print("─" * bar_length)
+    if title:
+        print(f"{title}".center(bar_length))
+        print("─" * bar_length)
+
+def print_bottom_bar(message=""):
+    bar_length = 48 
+    print("─" * bar_length)
+    print(f"{message}".center(bar_length))
+    print("─" * bar_length)
