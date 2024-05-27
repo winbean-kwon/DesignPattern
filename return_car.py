@@ -30,7 +30,7 @@ class LateReturnFeeStrategy(ExcessFeeStrategy): # strategy 패턴: 반납 늦게
             return extra_days * car.base_cost 
         return 0
 
-class RentalReturnProcessor:
+class RentalReturnProcessor:    # 렌탈 반납 프로세스
     def __init__(self, fee_strategies, payment_strategy):
         self.fee_strategies = fee_strategies
         self.payment_strategy = payment_strategy
@@ -51,7 +51,7 @@ class RentalReturnProcessor:
         
         return total_fee, final_cost, rental_info # 추가금액, 최종 결제 금액 반환하도록 변경
 
-class PaymentStrategy:
+class PaymentStrategy:  # 결제 수단
     def pay(self, amount):
         pass
 

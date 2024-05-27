@@ -16,10 +16,10 @@ class Car:
         self.base_cost = base_cost
         self.options = []
 
-    def add_option(self, option):
+    def add_option(self, option):   # 옵션 추가
         self.options.append(option)
 
-    def calculate_total_cost(self, days):
+    def calculate_total_cost(self, days):   # 최종 금액 계산
         total_cost = self.base_cost * days
         for option in self.options:
             total_cost += option.cost * days
@@ -44,15 +44,10 @@ class Car:
     @classmethod
     def from_dict(cls, data):
         # 추가된 부분 : Json 파일에서 읽어올 때 dict에서 Car 객체로 변환해야 합니다!
-        try:
-            car = cls(data['model'], data['base_cost'])
-            for option_data in data['options']:
-                car.add_option(Option(option_data['name'], option_data['cost']))
-            return car
-        except KeyError as e:
-            print(f"Error creating Car from dict: {e}")
-            print(f"Data: {data}")
-            raise
+        car = cls(data['model'], data['base_cost'])
+        for option_data in data['options']:
+            car.add_option(Option(option_data['name'], option_data['cost']))
+        return car
 
 # CarFactory 클래스 - 추상 클래스
 class AbstractCarFactory(ABC):
@@ -63,20 +58,17 @@ class AbstractCarFactory(ABC):
 # CarFactory 클래스 - 구체 클래스
 class CarFactory(AbstractCarFactory):
     def create_car(self, model_type):
-        if model_type == "전기차":
-            return Car("전기차", 20000)
-        elif model_type == "SUV":
-            return Car("SUV", 35000)
-        elif model_type == "소형":
-            return Car("소형차", 15000)
-        elif model_type == "중형":
-            return Car("중형차", 30000)
-        elif model_type == "대형":
-            return Car("대형차", 40000)
-        elif model_type == "밴":
-            return Car("밴", 50000)
-        else:
+        model_cost_map = {
+            "전기차": 20000,
+            "SUV": 35000,
+            "소형": 15000,
+            "중형": 30000,
+            "대형": 40000,
+            "밴": 50000
+        }
+        if model_type not in model_cost_map:
             raise ValueError("존재하지 않는 차종입니다.")
+        return Car(model_type, model_cost_map[model_type])
 
 # CarOptionBuilder 클래스: 차량 옵션 추가
 class CarOptionBuilder:
