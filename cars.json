@@ -1,0 +1,26 @@
+[
+    {
+        "model": "전기차",
+        "stock": 5
+    },
+    {
+        "model": "SUV",
+        "stock": 2
+    },
+    {
+        "model": "소형",
+        "stock": 10
+    },
+    {
+        "model": "중형",
+        "stock": 8
+    },
+    {
+        "model": "대형",
+        "stock": 6
+    },
+    {
+        "model": "밴",
+        "stock": 2
+    }
+]

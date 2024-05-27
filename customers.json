@@ -1,0 +1,99 @@
+[
+    {
+        "name": "d",
+        "phone": "d",
+        "email": "d",
+        "rent_history": [
+            {
+                "car": {
+                    "model": "SUV",
+                    "base_cost": 35000,
+                    "options": [
+                        {
+                            "name": "네비게이션",
+                            "cost": 1000
+                        },
+                        {
+                            "name": "보험",
+                            "cost": 5000
+                        }
+                    ]
+                },
+                "model_type": "SUV",
+                "rental_days": 10,
+                "options": [
+                    "navigation",
+                    "insurance"
+                ],
+                "total_cost": 410000,
+                "rental_start_date": "2024-05-27",
+                "due_date": "2024-06-06",
+                "return_date": "2024-06-12"
+            },
+            {
+                "car": {
+                    "model": "전기차",
+                    "base_cost": 20000,
+                    "options": [
+                        {
+                            "name": "네비게이션",
+                            "cost": 1000
+                        }
+                    ]
+                },
+                "model_type": "전기차",
+                "rental_days": 10,
+                "options": [
+                    "navigation"
+                ],
+                "total_cost": 210000,
+                "rental_start_date": "2024-05-27",
+                "due_date": "2024-06-06",
+                "return_date": "2024-06-10"
+            },
+            {
+                "car": {
+                    "model": "SUV",
+                    "base_cost": 35000,
+                    "options": [
+                        {
+                            "name": "네비게이션",
+                            "cost": 1000
+                        }
+                    ]
+                },
+                "model_type": "SUV",
+                "rental_days": 10,
+                "options": [
+                    "navigation"
+                ],
+                "total_cost": 360000,
+                "rental_start_date": "2024-05-27",
+                "due_date": "2024-06-06",
+                "return_date": "2024-06-10"
+            },
+            {
+                "car": {
+                    "model": "전기차",
+                    "base_cost": 20000,
+                    "options": [
+                        {
+                            "name": "네비게이션",
+                            "cost": 1000
+                        }
+                    ]
+                },
+                "model_type": "전기차",
+                "rental_days": 10,
+                "options": [
+                    "navigation"
+                ],
+                "total_cost": 210000,
+                "rental_start_date": "2024-05-27",
+                "due_date": "2024-06-06",
+                "return_date": "2024-06-10"
+            }
+        ],
+        "current_rent": null
+    }
+]

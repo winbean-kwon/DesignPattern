@@ -4,13 +4,35 @@ from return_car import RentalReturnProcessor, LateReturnFeeStrategy, CardPayment
 from customer_singleton import Customer
 from datetime import datetime, timedelta
 from receipt_visual import print_receipt
+import json
+
+def load_car_inventory():
+    with open('cars.json','r') as file:
+        return json.load(file)
+
+def save_car_inventory(inventory):
+    with open('cars.json', 'w') as file:
+        json.dump(inventory, file, ensure_ascii=False, indent=4)
+
+def get_car_stock(model, inventory):
+    for car in inventory:
+        if car['model'] == model:
+            return car['stock']
+    return 0
+
+def update_car_stock(model, inventory, change):
+    for car in inventory:
+        if car['model'] == model:
+            car['stock'] += change
+            return True
+    return False
 
 def print_top_bar(title=""):
     current_time = datetime.now().strftime("%H:%M")
     battery = "🔋100%"
     signal = "📶"
     bar_length = 48  
-    icons_length = len(current_time) + len(battery) + len(signal) + 3
+    icons_length = len(current_time) + len(battery) +  len(signal) + 3
     print("─" * bar_length)
     print(f"{signal} {current_time}{' ' * (bar_length - icons_length)}{battery}")
     print("─" * bar_length)
@@ -30,6 +52,7 @@ def clear_screen():
 def main():
     customer = Customer()
     rental_service = RentalServiceFacade()
+    car_inventory = load_car_inventory()
     
     while True:
         clear_screen()
@@ -120,6 +143,8 @@ def main():
                     rental_info['due_date'] = due_date.strftime("%Y-%m-%d") # 마찬가지로 due_date에 저장
 
                     customer.add_current_rent(customer_info, rental_info)
+                    update_car_stock(model_type, car_inventory, -1)
+                    save_car_inventory(car_inventory)
                     
                     print("\t렌트 정보가 추가되었습니다. ")
                     customer.print_rent_info(customer_info['current_rent'])
@@ -203,6 +228,9 @@ def main():
                 customer.return_car(customer_info, return_date_str) 
 
                 print("\t차량이 반납되었습니다.")
+                # 차량 대수 증가
+                update_car_stock(rent_info['model_type'], car_inventory, 1)
+                save_car_inventory(car_inventory)
                 
                 #영수증 출력
                 print_receipt(rent_info, payment_method, final_cost, total_fee)
